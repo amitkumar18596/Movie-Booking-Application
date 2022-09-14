@@ -58,6 +58,7 @@ async function init(){
  * Plug in the routes
  */
 require('./routes/movie.route')(app)
+require('./routes/theatre.route')(app)
 
 /**
  * start the server
