@@ -2,7 +2,7 @@
  * This file should have controller methods to perform crud operation 
  * of movie resorce
  */
-const { deleteOne } = require('../models/movie.model')
+
 const Movie = require('../models/movie.model')
 
 /**
@@ -27,6 +27,8 @@ exports.createMovie = async(req,res)=>{
         //insert the data into mongoDB and return the response
     const movieCreated = await Movie.create(movieObj)
 
+    console.log(`New movie created : ${movieCreated.name}`);
+
     // Return the response 
     const response = {
         name : movieCreated.name,
@@ -43,7 +45,7 @@ exports.createMovie = async(req,res)=>{
     }
     res.status(201).send(response)
     }catch(err){
-        console.log("Some error happened ", err.message);
+        console.log("Some error happened while new movie creation", err.message);
         res.status(501).send({
             message : "Internal server error"
         })
@@ -54,10 +56,9 @@ exports.createMovie = async(req,res)=>{
  * Get all movies
  */
 exports.findAllMovies = async(req,res)=>{
-    const queryObj = {}
-
+    
     try{
-        const movies = await Movie.find(queryObj)
+        const movies = await Movie.find()
         res.status(200).send(movies)
     }catch(err){
         console.log("Error while fetching all the movies ", err.message);
@@ -70,11 +71,18 @@ exports.findAllMovies = async(req,res)=>{
 /**
  * Get the movie by Id
  */
-exports.findMovieByName = async(req, res)=>{
+exports.findSingleMovie = async(req, res)=>{
     try{
-        const movie = await Movie.find({name : req.params.id})
+        const movie = await Movie.findOne({_id : req.params.id})
+        if (!movie){
+            return res.status(404).send({
+                message : "The movie is not found"
+            })
+            
+        }else {
+            return res.status(200).send(movie)
+        }
 
-        return res.status(200).send(movie)
     }catch(err){
         console.log("Error while searching the movie ", err.message);
         res.status(500).send({
@@ -88,17 +96,20 @@ exports.findMovieByName = async(req, res)=>{
  */
 exports.update = async(req, res)=>{
     try{
-        const movie = await Movie.findOne({name : req.params.id})
+        const movie = await Movie.findOne({_id : req.params.id})
 
+        movie.name = req.body.name ? req.body.name : movie.name
+        movie.description = req.body.description ? req.body.description : movie.description
+        movie.casts = req.body.casts ? req.body.casts : movie.casts
+        movie.trailerURL = req.body.trailerURL ? req.body.trailerURL : movie.trailerURL
+        movie.language = req.body.language ? req.body.language : movie.language
         movie.releaseDate = req.body.releaseDate ? req.body.releaseDate : movie.releaseDate
         movie.releaseStatus = req.body.releaseStatus ? req.body.releaseStatus : movie.releaseStatus
+        movie.imdbRating = req.body.imdbRating ? req.body.imdbRating : movie.imdbRating
+        movie.genre = req.body.genre ? req.body.genre : movie.genre
 
         const updatedMovie = await movie.save()
-        res.status(200).send({
-            name : req.params.id,
-            releaseDate : updatedMovie.releaseDate,
-            releaseStatus : updatedMovie.releaseStatus
-        })
+        res.status(200).send(updatedMovie)
     }catch(err){
         console.log("Error while updating movie ", err.message);
         res.status(500).send({
@@ -112,9 +123,11 @@ exports.update = async(req, res)=>{
  */
 exports.deleteMovie = async (req, res)=>{
     try{
-        const movie = await Movie.deleteOne({name : req.params.id})
+        const movie = await Movie.findOne({_id : req.params.id})
+        
+        await movie.remove()
+        console.log(`${movie.name} is deleted`);
         res.status(200).send("Movie is deleted")
-        await movie.save()
     }catch(err){
         console.log("Error while deleting movie ", err.message);
         res.status(500).send({

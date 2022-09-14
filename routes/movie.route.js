@@ -17,7 +17,7 @@ module.exports = (app) =>{
     app.get('/mba/api/v1/movies', movieController.findAllMovies)
 
     //GET : /mba/api/v1/movies/:id
-    app.get('/mba/api/v1/movies/:id', movieController.findMovieByName)
+    app.get('/mba/api/v1/movies/:id', movieController.findSingleMovie)
 
     //PUT : /mba/api/v1/movies/:id
     app.put('/mba/api/v1/movies/:id', movieController.update)
