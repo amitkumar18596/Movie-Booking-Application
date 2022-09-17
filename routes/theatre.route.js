@@ -23,3 +23,14 @@ module.exports = (app) =>{
     //DELETE /mba/api/v1/theaters/:id
     app.delete('/mba/api/v1/theaters/:id', theatreController.deleteOneTheatre)
 }
+
+/**
+ * I want to get the list of all the movies running in a athatre
+ * 
+ *      GET /mba/api/v1/theatres/:id/movies
+ * 
+ * Add/Remove a movie inside a theatre - Adding or removing multiple movies at a time
+ *      PUT /mba/api/v1/theatres/:id/movies
+ * 
+ * 
+ */
