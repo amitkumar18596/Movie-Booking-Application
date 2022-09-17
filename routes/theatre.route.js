@@ -22,10 +22,13 @@ module.exports = (app) =>{
 
     //DELETE /mba/api/v1/theaters/:id
     app.delete('/mba/api/v1/theaters/:id', theatreController.deleteOneTheatre)
+
+    //GET /mba/api/v1/theatres/:id/movies
+    app.get('/mba/api/v1/theatres/:id/movies', theatreController.getMoviesInTheatre)
 }
 
 /**
- * I want to get the list of all the movies running in a athatre
+ * I want to get the list of all the movies running in a theatre
  * 
  *      GET /mba/api/v1/theatres/:id/movies
  * 

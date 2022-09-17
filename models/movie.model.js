@@ -47,6 +47,11 @@ const movieSchema = new mongoose.Schema({
             constant.genre.offbeat
         ]
         
+    },
+    theatres : {
+        type : [mongoose.SchemaTypes.ObjectId],
+        default : [],
+        ref : "theatre"
     }
 }, {timestamps : true, versionKey : false})
 

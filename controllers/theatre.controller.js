@@ -2,6 +2,7 @@
  * This file will crrate the logic for CRUD operation for theatre
  */
 const { findOne } = require('../models/movie.model')
+const Movie = require('../models/movie.model')
 const Theatre = require('../models/theatre.model')
 
 /**
@@ -106,6 +107,22 @@ exports.deleteOneTheatre = async(req, res)=>{
         
     }catch(err){
         console.log("Error while delting theatre ", err.message);
+        res.status(500).send({
+            message : "Internal server error"
+        })
+    }
+}
+
+/**
+ * Get movies in theatre
+ */
+exports.getMoviesInTheatre = async(req, res)=>{
+    try{
+        const movie = await Movie.findOne({_id : req.params.id})
+
+        res.status(200).send(movie)
+    }catch(e){
+        console.log("Error while getting movies in a particular theatre ", e.message);
         res.status(500).send({
             message : "Internal server error"
         })

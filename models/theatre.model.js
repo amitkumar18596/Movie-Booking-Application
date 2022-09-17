@@ -31,6 +31,11 @@ const theatreSchema  = new mongoose.Schema({
     numberOfSeats : {
         type : Number,
         required : true
+    },
+    movies : {
+        type : [mongoose.SchemaTypes.ObjectId],
+        default : [],
+        ref : "movie"
     }
 }, {timestamps : true, versionKey : false})
 
