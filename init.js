@@ -7,7 +7,8 @@ const constant = require('./utils/constants')
  
 module.exports = async ()=>{
     try{
-        
+        await  Movie.collection.drop()
+        await Theatre.collection.drop()
     // create some movie seed data
     const movies = []
     movies[0] = await Movie.create({

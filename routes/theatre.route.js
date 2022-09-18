@@ -23,6 +23,9 @@ module.exports = (app) =>{
     //DELETE /mba/api/v1/theaters/:id
     app.delete('/mba/api/v1/theaters/:id', theatreController.deleteOneTheatre)
 
+    //PUT /mba/api/v1/theatres/:id/movies
+    app.put('/mba/api/v1/theatres/:id/movies', theatreController.editMoviesInTheatre)
+
     //GET /mba/api/v1/theatres/:id/movies
     app.get('/mba/api/v1/theatres/:id/movies', theatreController.getMoviesInTheatre)
 }

@@ -23,7 +23,7 @@ db.on("error", ()=>{
 })
 db.once("open", ()=>{
     console.log("Successfully connected to mongoDB");
-    init()
+    //init()
 })
 
 
