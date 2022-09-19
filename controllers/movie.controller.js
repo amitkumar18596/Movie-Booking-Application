@@ -43,7 +43,7 @@ exports.createMovie = async(req,res)=>{
         genre : movieCreated.genre,
         createdAt : movieCreated.createdAt
     }
-    res.status(201).send(response)
+    res.status(201).send(movieCreated)
     }catch(err){
         console.log("Some error happened while new movie creation", err.message);
         res.status(501).send({

@@ -122,22 +122,34 @@ exports.deleteOneTheatre = async(req, res)=>{
         const savedTheatre = await Theatre.findOne({_id : req.params.id})
         
         //get the movieIds
-        movieIds = req.body.movieIds
+        movieIds = req.body.movieIds // This is an array
         console.log(movieIds);
 
         //Add movieIds to theatre
-        if(req.body.insert){
-            movieIds.forEach(movieId => {
-                savedTheatre.movies.push(movieId)
-            })
-        }else {
-            // Remove these movies from theatres
-            savedMovieIds = savedTheatre.movies;
+        if (req.body.addMovies){
+            for (movieId of req.body.addMovies){
+                savedTheatre.movies.push(movieId) // pushed the movieId to the required theatre
 
-        movieIds.forEach(movieId => {
-            savedMovieIds = savedMovieIds.filter(smi => smi != movieId);
-        });
-        savedTheatre.movies = savedMovieIds;
+                //push the theatre id to each movie
+                const findMovie = await Movie.findOne({_id : movieId})
+                findMovie.theatres.push(savedTheatre._id)
+                await findMovie.save()
+            }
+        
+        }
+
+
+        if(req.body.removeMovies) {
+            // Remove these movies from theatres
+            for (movieId of req.body.removeMovies){
+                savedTheatre.movies.remove(movieId) // Removed the movieId from required theatre
+
+                // Remove the theatre id from each movie
+                const findMovie = await Movie.findOne({_id : movieId})
+                findMovie.theatres.remove(savedTheatre._id)
+                await findMovie.save()
+            }
+        
         }
 
         //save the database
@@ -157,9 +169,9 @@ exports.deleteOneTheatre = async(req, res)=>{
  */
 exports.getMoviesInTheatre = async(req, res)=>{
     try{
-        const savedTheatre = await Theatre.find({_id : req.params.id})
+        const movie = await Movie.findOne({_id : req.params.id})
 
-        res.status(200).send(savedTheatre.movies)
+        res.status(200).send(movie)
     }catch(e){
         console.log("Error while getting movies in a particular theatre ", e.message);
         res.status(500).send({
