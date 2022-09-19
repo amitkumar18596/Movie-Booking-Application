@@ -157,7 +157,7 @@ exports.deleteOneTheatre = async(req, res)=>{
  */
 exports.getMoviesInTheatre = async(req, res)=>{
     try{
-        const savedTheatre = await Theatre.findOne({_id : req.params.id})
+        const savedTheatre = await Theatre.find({_id : req.params.id})
 
         res.status(200).send(savedTheatre.movies)
     }catch(e){
