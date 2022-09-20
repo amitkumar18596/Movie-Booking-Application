@@ -5,8 +5,9 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dbConfig = require('./configs/db.config')
 const init = require('./init')
-const Movie = require('./models/movie.model')
-const constant = require('./utils/constants')
+// const Movie = require('./models/movie.model')
+// const constant = require('./utils/constants')
+
 
 //Register the body-parser mddleware
 app.use(bodyParser.json())
@@ -33,6 +34,7 @@ db.once("open", ()=>{
  */
 require('./routes/movie.route')(app)
 require('./routes/theatre.route')(app)
+require('./routes/auth.route')(app)
 
 /**
  * start the server
