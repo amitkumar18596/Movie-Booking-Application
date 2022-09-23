@@ -99,10 +99,29 @@ const isValidPassword = (password)=>{
     return password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{10,25}$/)
 }
 
+// Login a user
+const validateSignInRequestBody = (req, res, next)=>{
+    //Check if user id is provided or not
+    if(!req.body.userId){
+        res.status(400).send({
+            message : "User ID is not provided"
+        })
+    }
+
+    // Check if password is provided or not
+    if(!req.body.password){
+        res.status(400).send({
+            message : "Password is not provided"
+        })
+    }
+
+    next()
+}
 
 
 const validateUser = {
-    validateSignUpRquestBody : validateSignUpRquestBody
+    validateSignUpRquestBody : validateSignUpRquestBody,
+    validateSignInRequestBody : validateSignInRequestBody
 }
 
 module.exports = validateUser

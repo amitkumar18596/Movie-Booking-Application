@@ -6,6 +6,6 @@ module.exports = (app) =>{
     app.post('/mba/api/v1/auth/signup', [validateUser.validateSignUpRquestBody], authController.signup)
 
     // Route for sign in
-    app.post('/mba/api/v1/auth/signin', authController.signin)
+    app.post('/mba/api/v1/auth/signin', [validateUser.validateSignInRequestBody], authController.signin)
 }
 
