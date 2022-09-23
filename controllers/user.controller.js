@@ -3,6 +3,7 @@
  */
 const User = require('../models/user.model')
 const objectConverter = require('../utils/objectConverter')
+const bcrypt = require('bcryptjs')
 
 //Get the list of all the users
 exports.findAllUsers = async(req, res)=>{
@@ -67,6 +68,27 @@ exports.update = async(req, res)=>{
         })
     }catch(err){
         console.log("Error while user attributes ", err.message);
+        res.status(500).send({
+            message : "Internal server error"
+        })
+    }
+}
+
+//Password to be updated by user itself
+// TODO : to be worked on this logic for password validation
+exports.updatePassword = async(req, res)=>{
+    try{
+        const user = await User.findOne({userId : req.params.id})
+
+        user.password = req.body.password ? bcrypt.hashSync(req.body.password, 8) : user.password
+
+        await user.save()
+        res.status(200).send({
+           message : "Password has been updated"
+        })
+
+    }catch(err){
+        console.log("Error while updating password ", err.message);
         res.status(500).send({
             message : "Internal server error"
         })
