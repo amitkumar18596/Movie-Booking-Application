@@ -31,3 +31,44 @@ exports.findAllUsers = async(req, res)=>{
         })
     }
 }
+
+exports.findUserById = async(req, res) =>{
+    try{
+        const user = await User.find({userId : req.params.id})
+
+        res.status(200).send(objectConverter.userResponse(user))
+    }catch(err){
+        console.log("Error while fetching its user details by id ", err.message);
+        res.status(500).send({
+            message : "Internal server error"
+        })
+    }
+}
+
+// Update user attributes
+exports.update = async(req, res)=>{
+    try{
+        const user = await User.findOne({userId : req.params.id})
+
+        user.userStatus = req.body.userStatus ? req.body.userStatus : user.userStatus
+        user.name = req.body.name ? req.body.name : user.name
+        user.userType = req.body.userType ? req.body.userType : user.userType
+
+        const updatedUser = await user.save()
+
+        res.status(200).send({
+            name : updatedUser.name,
+            userid : updatedUser.userId,
+            email : updatedUser.email,
+            userType : updatedUser.userType,
+            userStatus : updatedUser.userStatus,
+            // createdAt: updatedUser.createdAt,
+            updatedAt: updatedUser.updatedAt
+        })
+    }catch(err){
+        console.log("Error while user attributes ", err.message);
+        res.status(500).send({
+            message : "Internal server error"
+        })
+    }
+}
