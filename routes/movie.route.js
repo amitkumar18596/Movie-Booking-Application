@@ -8,10 +8,11 @@
  * DELETE : /mba/api/v1/movies
  */
 const movieController = require('../controllers/movie.controller')
+const {validateMovieRequestBody} = require('../middlewares')
 
 module.exports = (app) =>{
     //POST : /mba/api/v1/movies
-    app.post('/mba/api/v1/movies', movieController.createMovie)
+    app.post('/mba/api/v1/movies', [validateMovieRequestBody.newMovieBody], movieController.createMovie)
 
     //GET : /mba/api/v1/movies
     app.get('/mba/api/v1/movies', movieController.findAllMovies)
