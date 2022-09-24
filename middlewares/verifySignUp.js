@@ -65,6 +65,20 @@ const validateSignUpRquestBody = async (req, res, next) => {
         })
     }
 
+    // Check email is unique or not
+    try {
+        const user = await User.findOne({ email: req.body.email })
+        if (user) {
+            return res.status(400).send({
+                message: "This email is already registered. Try a new One!"
+            })
+        }
+    }catch(err){
+        return res.status(500).send({
+            message : 'Internal server error while validating the request'
+        })
+    }
+
     // validate if the usertype is present and valid
     if(!req.body.userType){
         return res.status(400).send({
