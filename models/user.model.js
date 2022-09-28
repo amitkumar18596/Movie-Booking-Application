@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema({
         required : true,
         default : constant.userStatus.approved,
         enum : [constant.userStatus.approved, constant.userStatus.pending, constant.userStatus.rejected]
+    },
+    myBookings : {
+        type : [mongoose.SchemaTypes.ObjectId],
+        default : [],
+        ref : "booking"
     }
 }, { versionKey : false})
 

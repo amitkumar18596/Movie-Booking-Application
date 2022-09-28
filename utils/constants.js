@@ -29,5 +29,12 @@ module.exports = {
         pending : "PENDING",
         approved : "APPROVED",
         rejected : "REJECTED"
-    }
+    },
+    bookingStatus : {
+        inprogress : "IN_PROGRESS",
+        booked : "BOOKED",
+        failed : "FAILED",
+        cancelled : "CANCELLED"
+    },
+    ticketPrice : 150
 }

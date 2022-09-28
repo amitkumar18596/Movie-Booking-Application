@@ -36,6 +36,7 @@ require('./routes/movie.route')(app)
 require('./routes/theatre.route')(app)
 require('./routes/auth.route')(app)
 require('./routes/user.route')(app)
+require('./routes/booking.route')(app)
 
 /**
  * start the server

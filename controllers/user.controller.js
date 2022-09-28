@@ -23,6 +23,7 @@ exports.findAllUsers = async(req, res)=>{
 
     try{
         const users = await User.find(queryObj)
+        
         res.status(200).send(objectConverter.userResponse(users))
 
     }catch(err){
@@ -36,7 +37,7 @@ exports.findAllUsers = async(req, res)=>{
 exports.findUserById = async(req, res) =>{
     try{
         const user = await User.find({userId : req.params.id})
-
+        
         res.status(200).send(objectConverter.userResponse(user))
     }catch(err){
         console.log("Error while fetching its user details by id ", err.message);
