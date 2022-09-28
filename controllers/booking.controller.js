@@ -46,3 +46,31 @@ exports.getAllBookings = async(req, res) =>{
     res.status(200).send(bookings)
     
 }
+
+//Updatebooking by Id
+exports.updateBookingById = async(req, res) =>{
+    const booking = await Booking.findOne({_id : req.params.id})
+
+    if(!booking){
+        return res.status(400).send("Booking id is not found")
+    }
+
+    booking.theatreId = req.body.theatreId != undefined ? req.body.theatreId : booking.theatreId
+    booking.movieId = req.body.movieId != undefined ? req.body.movieId : booking.movieId
+    booking.userId = req.body.userId != undefined ? req.body.userId : booking.userId
+    booking.noOfSeats = req.body.noOfSeats != undefined ? req.body.noOfSeats : booking.noOfSeats
+    booking.totalCost = booking.noOfSeats * constant.ticketPrice
+    booking.bookingStatus =  req.body.bookingStatus != undefined ? req.body.bookingStatus : booking.status
+
+    try{
+        const updatedBooking = await booking.save()
+        res.status(200).send(updatedBooking)
+
+    }catch(err){
+        console.log("Error while updating the booking ", err.message);
+        res.status(500).send({
+            message : " Internal server error"
+        })
+    }
+
+}
