@@ -36,5 +36,9 @@ module.exports = {
         failed : "FAILED",
         cancelled : "CANCELLED"
     },
+    paymentStatus : {
+        failed : "FAILED",
+        success : "SUCCESS"
+    },
     ticketPrice : 150
 }

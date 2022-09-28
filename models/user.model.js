@@ -52,6 +52,11 @@ const userSchema = new mongoose.Schema({
         type : [mongoose.SchemaTypes.ObjectId],
         default : [],
         ref : "booking"
+    },
+    myPayments : {
+        type : [mongoose.SchemaTypes.ObjectId],
+        default : [],
+        ref : "payment"
     }
 }, { versionKey : false})
 
